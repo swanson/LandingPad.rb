@@ -10,6 +10,24 @@ class LandingPad < Sinatra::Base
   set :public, 'public'
 
   configure do
+    # Admin settings - used to access contacts
+    $admin_acct_name = 'admin'   
+    $admin_acct_passwd = 'admin'
+    
+    # Page settings - used to configure your landing page
+    $page_title = 'LandingPad.rb | Just add water landing pages'
+    $app_title = 'LandingPad.rb'
+    $app_summary = 'Get a page up and running in minutes and 
+                    start collecting contacts immediately!'
+    #your google analyics tracking key, if applicable
+    $google_analyics_key = 'UA-XXXXXX-X' 
+
+    $bg_color = '#2B2F3D'
+    $app_title_color = '#FFFFFF'
+    #see http://code.google.com/webfonts for available fonts
+    $app_title_font = 'Philosopher'
+
+    # Database settings - do NOT change these
     uri = URI.parse(ENV['MONGOHQ_URL'])
     conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
     db = conn.db(uri.path.gsub(/^\//, ''))
@@ -26,7 +44,7 @@ class LandingPad < Sinatra::Base
 
     def authorized?
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == ['admin', 'admin']
+      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [$admin_acct_name, $admin_acct_passwd]
     end
   end
     
@@ -36,6 +54,7 @@ class LandingPad < Sinatra::Base
 
   get '/contacts' do
     protected!
+    @contacts = $collection.find()
     erb :contacts
   end
 
@@ -43,10 +62,10 @@ class LandingPad < Sinatra::Base
     content_type :json
     contact = params[:contact]
     contact_type = contact.start_with?("@") ||
-                  !contact.include?("@") ? "Twitter" : "email"
+                  !contact.include?("@") ? "Twitter" : "Email"
 
     doc = {
-      "name" => contact,
+      "name"    => contact,
       "type"    => contact_type,
       "referer" => params[:referer],
     }

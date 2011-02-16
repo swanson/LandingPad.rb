@@ -1,65 +1,79 @@
 <html>
-    <head>
-        <title>LandingPad.rb | Just add water landing page</title>
-        <script type="text/javascript" src="javascripts/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="javascripts/jquery-ui-1.8.9.custom.min.js">
-        </script>
-        <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-        <script type="text/javascript">
-            $(document).ready(function(){
-              $("#sign_up").click(function(e){
-                var that = $(this);
-                e.preventDefault();
+<head>
+  <title><%= $page_title %></title>
+  <script type="text/javascript" src="javascripts/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="javascripts/jquery-ui-1.8.9.custom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=<%= $app_title_font %>">
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $("#sign_up").click(function(e){
+      var that = $(this);
+      e.preventDefault();
 
-                if ( $('.entry').val().length < 1 ){
-                  $('#form_div').effect('shake', { times: 4, distance: 3}, 40);
-                  return;
-                }
+      if ( $('#subscribe').attr('submitted') ){
+        return;
+      }
 
-                $.ajax({
-                  type: 'post',
-                  url: '/subscribe',
-                  data: $('#subscribe').serialize(),
-                  datatype: 'json',
-                  success: function(data){
-                    $('.entry').val('');
-                    $("<div class='thanks'>Thanks! We'll update you through " + 
-                      data.type + "!</div>")
-                      .hide()
-                      .appendTo('#container')
-                      .slideDown('fast');
+      if ( $('.entry').val().length < 1 ){
+        $('#form_div').effect('shake', { times: 4, distance: 3}, 40);
+        return;
+      }
 
-                    $('.sign_up').attr('disabled', true);
-                    that.unbind();
-                  },
-                  error: function(data){
-                    $("<div class='yikes'>Yikes! Something messed up, try again.</div>")
-                      .hide()
-                      .appendTo('#container')
-                      .slideDown('fast');
-                  },
-                });
-              });
-            });
-        </script>
+      $.ajax({
+        type: 'post',
+        url: '/subscribe',
+        data: $('#subscribe').serialize(),
+        datatype: 'json',
+        success: function(data){
+          $("<div class='thanks'>Thanks! We'll update you through " + 
+            data.type + "!</div>")
+              .hide()
+              .appendTo('#container')
+              .slideDown('fast');
 
+          $('.sign_up').attr('disabled', true);
+          $('#subscribe').attr('submitted', true);
+        },
+        error: function(data){
+          $("<div class='yikes'>Yikes! Something messed up, try again.</div>")
+              .hide()
+              .appendTo('#container')
+              .slideDown('fast');
+        },
+      });
+    });
+  });
+</script>
 </head>
-  <body>
-    <center id="container">
-      <h1>LandingPad.rb</h1>
-      <div class="box">
-        <h2>Just add water landing pages. <br />  
-          Get a page up in running minutes and startcollecting contact information!
-        </h2>
-        <h3>Enter your email or Twitter and we'll tell you when it's ready.</h3>
-        <div id="form_div">
-          <form id="subscribe" novalidate>
-            <input class="entry" type="email" name="contact" />
-            <button id="sign_up">Sign up</button>
-          </form>
-        </div>
-        <h4>Powered by Heroku and MongoHQ</h4>
+<body style="background-color:<%= $bg_color %>;">
+  <div id="container">
+    <h1 style="color:<%= $app_title_color %>; font-family:<%= $app_title_font %>,serif">
+      <%= $app_title %>
+    </h1>
+    <div class="box">
+      <h2><%= $app_summary %></h2>
+      <h3>Enter your email or Twitter and we'll tell you when it's ready.</h3>
+      <div id="form_div">
+        <form id="subscribe" novalidate>
+          <input class="entry" type="email" name="contact" />
+          <button id="sign_up">Sign up</button>
+        </form>
       </div>
-    </center>
-  </body>
+      <h4>Powered by <a href="http://heroku.com/">Heroku</a> and <a href="http://mongohq.com">MongoHQ</a></h4>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', <%= $google_analytics_key %>]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 </html>
