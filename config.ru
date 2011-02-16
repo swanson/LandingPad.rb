@@ -1,0 +1,2 @@
+require 'landingpad'
+run LandingPad

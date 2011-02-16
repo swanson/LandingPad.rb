@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>LandingPad.rb | Just add water landing page</title>
+        <script type="text/javascript" src="javascripts/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="javascripts/jquery-ui-1.8.9.custom.min.js">
+        </script>
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+        <script type="text/javascript">
+            $(document).ready(function(){
+              $("#sign_up").click(function(e){
+                var that = $(this);
+                e.preventDefault();
+
+                if ( $('.entry').val().length < 1 ){
+                  $('#form_div').effect('shake', { times: 4, distance: 3}, 40);
+                  return;
+                }
+
+                $.ajax({
+                  type: 'post',
+                  url: '/subscribe',
+                  data: $('#subscribe').serialize(),
+                  datatype: 'json',
+                  success: function(data){
+                    $('.entry').val('');
+                    $("<div class='thanks'>Thanks! We'll update you through " + 
+                      data.type + "!</div>")
+                      .hide()
+                      .appendTo('#container')
+                      .slideDown('fast');
+
+                    $('.sign_up').attr('disabled', true);
+                    that.unbind();
+                  },
+                  error: function(data){
+                    $("<div class='yikes'>Yikes! Something messed up, try again.</div>")
+                      .hide()
+                      .appendTo('#container')
+                      .slideDown('fast');
+                  },
+                });
+              });
+            });
+        </script>
+
+</head>
+  <body>
+    <center id="container">
+      <h1>LandingPad.rb</h1>
+      <div class="box">
+        <h2>Just add water landing pages. <br />  
+          Get a page up in running minutes and startcollecting contact information!
+        </h2>
+        <h3>Enter your email or Twitter and we'll tell you when it's ready.</h3>
+        <div id="form_div">
+          <form id="subscribe" novalidate>
+            <input class="entry" type="email" name="contact" />
+            <button id="sign_up">Sign up</button>
+          </form>
+        </div>
+        <h4>Powered by Heroku and MongoHQ</h4>
+      </div>
+    </center>
+  </body>
+</html>
