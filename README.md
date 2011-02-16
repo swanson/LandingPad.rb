@@ -1,3 +1,5 @@
+![](http://i.imgur.com/w3hXT.png)
+
 What is LandingPad.rb
 ----
 **LandingPad.rb** is a simple "landing page" application that takes just a few minutes to setup. It lets you quickly put up a page to collect email addresses or Twitter users for when you are ready to launch your app/product/whatever.
