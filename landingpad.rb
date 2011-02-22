@@ -67,7 +67,7 @@ class LandingPad < Sinatra::Base
     doc = {
       "name"    => contact,
       "type"    => contact_type,
-      "referer" => params[:referer],
+      "referrer" => params[:referrer],
     }
    
     $collection.insert(doc)
