@@ -7,20 +7,20 @@ require 'json'
 
 class LandingPad < Sinatra::Base
   set :static, true
-  set :public, 'public'
+  set :public_folder, 'public'
 
   configure do
     # Admin settings - used to access contacts
-    $admin_acct_name = 'admin'   
+    $admin_acct_name = 'admin'
     $admin_acct_passwd = 'admin'
-    
+
     # Page settings - used to configure your landing page
     $page_title = 'LandingPad.rb | Just add water landing pages'
     $app_title = 'LandingPad.rb'
     $app_summary = 'Get a page up and running in minutes and 
                     start collecting contacts immediately!'
     #your google analyics tracking key, if applicable
-    $google_analyics_key = 'UA-XXXXXX-X' 
+    $google_analytics_key = 'UA-XXXXXX-X'
 
     $bg_color = '#2B2F3D'
     $app_title_color = '#FFFFFF'
@@ -47,7 +47,7 @@ class LandingPad < Sinatra::Base
       @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [$admin_acct_name, $admin_acct_passwd]
     end
   end
-    
+
   get '/' do
     erb :index
   end
@@ -69,7 +69,7 @@ class LandingPad < Sinatra::Base
       "type"    => contact_type,
       "referer" => request.referer,
     }
-   
+
     $collection.insert(doc)
       {"success" => true, "type" => contact_type}.to_json
     end
