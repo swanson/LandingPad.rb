@@ -7,7 +7,7 @@ require 'json'
 
 class LandingPad < Sinatra::Base
   set :static, true
-  set :public, 'public'
+  set :public_folder, 'public'
 
   configure do
     # Admin settings - used to access contacts
