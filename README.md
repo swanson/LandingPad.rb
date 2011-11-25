@@ -10,40 +10,42 @@ Google Analytics are supported so you can track views and conversion rates for s
 
 How to use LandingPad.rb
 ----
-1) Setup an account on [Heroku](heroku.com) (you can use the free account)  
+1. Setup an account on [Heroku](heroku.com) (you can use the free account)  
 Instructions: [http://devcenter.heroku.com/articles/quickstart]()  
 Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstart#prerequisites]()  
 
-2) Extract **LandingPad.rb** into a folder
+1. Extract **LandingPad.rb** into a folder
 
-3) Navigate to that folder.
+1. Navigate to that folder.
 
-`$> ls` should show "`config.ru  landingpad.rb public/  views/`" if you are in the right folder
+	`$> ls` should show "`config.ru  landingpad.rb public/  views/`" if you are in the right folder
 
-4) Open `landingpad.rb` in a text editor.  You should see a `configure` block where you can enter the details for your landing page (such as your site's name, a summary, colors, etc).  
+1. Run `bundle install` to install required gems.  (You must have [Bundler](http://gembundler.com/) installed-- run `gem install bundler` to install.)
 
-This is also where you set the admin username and password for accessing your stored contacts -- **PLEASE CHANGE THIS!**
+1. Open `landingpad.rb` in a text editor.  You should see a `configure` block where you can enter the details for your landing page (such as your site's name, a summary, colors, etc).
 
-You can also set your Google Analytics tracking id in this file if you have an account.
+	This is also where you set the admin username and password for accessing your stored contacts -- **PLEASE CHANGE THIS!**
 
-5) Once you have edited `landingpad.rb` to add your app's settings, run the following commands from your project folder:
+	You can also set your Google Analytics tracking id in this file if you have an account.
+
+1. Once you have edited `landingpad.rb` to add your app's settings, run the following commands from your project folder:
 
          git init
          git add .
          git commit -m "setting up landing page"
 
-6) Now create your Heroku app by running from your project folder:
+1. Now create your Heroku app by running from your project folder:
 
          heroku create
          heroku addons:add mongohq:free
 
-7) Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.  
+1. Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.  
 
-You should see a landing page and be able to enter in an email address or Twitter account name.  To view the contact information stored in your app, navigate to **http://your-heroku-machine-name.heroku.com/contacts**.  You will need to enter the username and password that you setup in Step 4.  
+	You should see a landing page and be able to enter in an email address or Twitter account name.  To view the contact information stored in your app, navigate to **http://your-heroku-machine-name.heroku.com/contacts**.  You will need to enter the username and password that you setup in Step 4.  
 
-You should see a table listing the name, type and referal URL for anyone that has signed up for your app.
+	You should see a table listing the name, type and referal URL for anyone that has signed up for your app.
 
-8)  You will probably want a custom domain, following the instructions here [http://devcenter.heroku.com/articles/custom-domains]() to setup your domain to point to your brand-new landing page.
+1.  You will probably want a custom domain, following the instructions here [http://devcenter.heroku.com/articles/custom-domains]() to setup your domain to point to your brand-new landing page.
 
 Uhh...something broke
 ----
