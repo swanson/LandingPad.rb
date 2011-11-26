@@ -49,7 +49,7 @@ Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstar
 
 Uhh...something broke
 ----
-You can try to debug your page on your local machine by installing the correct Ruby gems in the `.gems` file and running the app using `rackup config.ru -p 3456`.  You can get to it by opening a browser and going to `localhost:3456`.  
+You can try to debug your page on your local machine by installing the correct gems with Bundler and running the app using `rackup config.ru -p 3456`.  You can get to it by opening a browser and going to `localhost:3456`.  
 
 Make sure you have all of your settings correct in `landingpad.rb`.
 
