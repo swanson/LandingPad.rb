@@ -5,36 +5,53 @@ require 'mongo'
 require 'erb'
 require 'json'
 
+
 class LandingPad < Sinatra::Base
   set :static, true
   set :public_folder, 'public'
 
+
   configure do
+    $app_url = ENV['APP_URL'] || "http://localhost:3456/"
+
     # Admin settings - used to access contacts
-    $admin_acct_name = 'admin'
-    $admin_acct_passwd = 'admin'
+    $admin_acct_name = ENV['ADMIN_ACCT_NAME'] || 'admin'
+    $admin_acct_passwd = ENV['ADMIN_ACCT_PASSWD'] || 'admin'
 
     # Page settings - used to configure your landing page
-    $page_title = 'LandingPad.rb | Just add water landing pages'
-    $app_title = 'LandingPad.rb'
-    $app_summary = 'Get a page up and running in minutes and 
-                    start collecting contacts immediately!'
+    $page_title = ENV['PAGE_TITLE'] || 'LandingPad.rb | Just add water landing pages'
+    $app_title = ENV['APP_TITLE'] ||  'LandingPad.rb'
+    $app_summary = ENV['APP_SUMMARY'] || 'Get a page up and running in minutes and start collecting contacts immediately!'
     #your google analyics tracking key, if applicable
-    $google_analytics_key = 'UA-XXXXXX-X'
+    $google_analytics_key = ENV['GOOGLE_ANALYTICS_KEY'] || 'UA-XXXXXX-X'
 
-    $bg_color = '#2B2F3D'
-    $app_title_color = '#FFFFFF'
+    $bg_color = ENV['BGCOLOR'] || '#2B2F3D'
+    $app_title_color = ENV['APP_TITLE_COLOR'] || '#FFFFFF'
     #see http://code.google.com/webfonts for available fonts
-    $app_title_font = 'Philosopher'
+    $app_title_font = ENV['APP_TITLE_FONT'] || 'Philosopher'
+
+    #social network settings, for sharing the page post signup
+    $social_twitter = ENV['SOCIAL_TWITTER']
 
     # Database settings - do NOT change these
-    uri = URI.parse(ENV['MONGOHQ_URL'])
-    conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-    db = conn.db(uri.path.gsub(/^\//, ''))
-    $collection = db.collection("contacts")
+    mongo_url = ENV['MONGOHQ_URL']
+
+    # only hook up mongo if we have a url, this means subscribing and contacts won't work locally
+    unless mongo_url.nil?   
+      uri = URI.parse(mongo_url)
+      conn = Mongo::Connection.from_uri(mongo_url)
+      db = conn.db(uri.path.gsub(/^\//, ''))
+      $collection = db.collection("contacts")
+    end
   end
 
   helpers do
+    include Rack::Utils  
+
+    def u text
+      escape text
+    end
+
     def protected!
       unless authorized?
         response['WWW-Authenticate'] = %(Basic realm="Restricted Area")

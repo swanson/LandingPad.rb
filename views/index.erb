@@ -34,6 +34,7 @@
 
           $('.sign_up').attr('disabled', true);
           $('#subscribe').attr('submitted', true);
+          $('#social').delay(2000).slideDown();
         },
         error: function(data){
           $("<div class='yikes'>Yikes! Something messed up, try again.</div>")
@@ -53,14 +54,16 @@
     </h1>
     <div class="box">
       <h2><%= $app_summary %></h2>
-      <h3>Enter your email or Twitter and we'll tell you when it's ready.</h3>
+      <h3>Enter your email or Twitter and we'll send you an invite.</h3>
       <div id="form_div">
         <form id="subscribe" novalidate>
           <input class="entry" type="email" name="contact" />
           <button id="sign_up">Sign up</button>
         </form>
       </div>
-      <h4>Powered by <a href="http://heroku.com/">Heroku</a> and <a href="http://mongohq.com">MongoHQ</a></h4>
+    </div>
+    <div id="social" class="box" style="display: none">
+      Share this page on <a href="http://twitter.com/home?status=Check+out+<%= u $app_title %>+<%= u $app_summary %>+<%= u $app_url %>">Twitter</a> or <a href="http://www.facebook.com/share.php?u=<%= u $app_url %>">Facebook</a> to get invited sooner.
     </div>
   </div>
 </body>
