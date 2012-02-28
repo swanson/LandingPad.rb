@@ -7,6 +7,10 @@ body {
   background-position: top;
 }
 
+#social {
+  display: none;
+}
+
 #container {
   margin: 100px auto 0 auto;
 }
@@ -22,15 +26,20 @@ body {
   min-height: 30px;
   line-height: 30px;
   margin: 0;
+  border: 1px solid #E1E1E8;
+  margin-bottom: 30px;
 }
 
 .bloc {
   padding: 30px;
-  margin-bottom: 30px;
   background-color: whiteSmoke;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+}
+
+#signup {
+  display:none;
 }
 
 .small-bloc {
@@ -53,4 +62,29 @@ p {
   font-size: 18px;
   font-weight: 200;
   line-height: 27px;
+}
+
+form {
+  margin: 0;
+}
+
+small {
+  font-size: 11px;
+}
+
+.help {
+  color: #999;
+  font-style: italic;
+}
+.help.error {
+  color: #B94A48;
+}
+
+.alert {
+  float: right;
+  margin: 10px;
+}
+
+.alert .close {
+  top: 3px;
 }

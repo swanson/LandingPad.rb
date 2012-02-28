@@ -1,9 +1,9 @@
 require 'rubygems'
-require 'sinatra/base'
+require 'sinatra'
 require 'uri'
 require 'mongo'
-require 'erb'
 require 'json'
+require 'haml'
 
 
 class LandingPad < Sinatra::Base
@@ -66,18 +66,18 @@ class LandingPad < Sinatra::Base
   end
 
   get '/' do
-    erb :index
+    haml :index
   end
 
   get '/config' do
     protected!
-    erb :config
+    haml :config
   end
 
   get '/contacts' do
     protected!
     @contacts = $collection.find()
-    erb :contacts
+    haml :contacts
   end
 
   post '/subscribe' do
