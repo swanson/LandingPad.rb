@@ -1,69 +1,30 @@
 <html>
 <head>
   <title><%= $page_title %></title>
-  <script type="text/javascript" src="javascripts/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="javascripts/jquery-ui-1.8.9.custom.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=<%= $app_title_font %>">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-  <script type="text/javascript">
-  $(document).ready(function(){
-    $("#sign_up").click(function(e){
-      var that = $(this);
-      e.preventDefault();
-
-      if ( $('#subscribe').attr('submitted') ){
-        return;
-      }
-
-      if ( $('.entry').val().length < 1 ){
-        $('#form_div').effect('shake', { times: 4, distance: 3}, 40);
-        return;
-      }
-
-      $.ajax({
-        type: 'post',
-        url: '/subscribe',
-        data: $('#subscribe').serialize(),
-        datatype: 'json',
-        success: function(data){
-          $("<div class='thanks'>Thanks! We'll update you through " + 
-            data.type + "!</div>")
-              .hide()
-              .appendTo('#container')
-              .slideDown('fast');
-
-          $('.sign_up').attr('disabled', true);
-          $('#subscribe').attr('submitted', true);
-          $('#social').delay(2000).slideDown();
-        },
-        error: function(data){
-          $("<div class='yikes'>Yikes! Something messed up, try again.</div>")
-              .hide()
-              .appendTo('#container')
-              .slideDown('fast');
-        },
-      });
-    });
-  });
-</script>
 </head>
 <body style="background-color:<%= $bg_color %>;">
-  <div id="container">
-    <h1 style="color:<%= $app_title_color %>; font-family:<%= $app_title_font %>,serif">
-      <%= $app_title %>
-    </h1>
-    <div class="box">
-      <h2><%= $app_summary %></h2>
-      <h3>Enter your email or Twitter and we'll send you an invite.</h3>
-      <div id="form_div">
-        <form id="subscribe" novalidate>
-          <input class="entry" type="email" name="contact" />
-          <button id="sign_up">Sign up</button>
-        </form>
+  <div id="container" class="container">
+    <div class="row-fuild">
+      <div class="span12">
+        <div class='bloc'>
+          <h1><%= $app_title %></h1>
+          <p><%= $app_summary %></p>
+        </div>
       </div>
-    </div>
-    <div id="social" class="box" style="display: none">
-      Share this page on <a href="http://twitter.com/home?status=Check+out+<%= u $app_title %>+<%= u $app_summary %>+<%= u $app_url %>">Twitter</a> or <a href="http://www.facebook.com/share.php?u=<%= u $app_url %>">Facebook</a> to get invited sooner.
+      <div class="span12">
+        <div class='small-bloc'>
+          <form novalidate>
+            <input type="email" class='input-xlarge' placeholder='Email address or Twitter @username' />
+            <button>Sign up</button>
+          </form>
+          </div>
+      </div>
     </div>
   </div>
 </body>

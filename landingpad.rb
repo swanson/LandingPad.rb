@@ -25,10 +25,10 @@ class LandingPad < Sinatra::Base
     #your google analyics tracking key, if applicable
     $google_analytics_key = ENV['GOOGLE_ANALYTICS_KEY'] || 'UA-XXXXXX-X'
 
-    $bg_color = ENV['BGCOLOR'] || '#2B2F3D'
-    $app_title_color = ENV['APP_TITLE_COLOR'] || '#FFFFFF'
+    $bg_color = ENV['BGCOLOR'] || '#FFF'
+    $app_title_color = ENV['APP_TITLE_COLOR'] || '#FFF'
     #see http://code.google.com/webfonts for available fonts
-    $app_title_font = ENV['APP_TITLE_FONT'] || 'Philosopher'
+    $app_title_font = ENV['APP_TITLE_FONT'] || 'Open Sans'
 
     #social network settings, for sharing the page post signup
     $social_twitter = ENV['SOCIAL_TWITTER']
@@ -37,7 +37,7 @@ class LandingPad < Sinatra::Base
     mongo_url = ENV['MONGOHQ_URL']
 
     # only hook up mongo if we have a url, this means subscribing and contacts won't work locally
-    unless mongo_url.nil?   
+    unless mongo_url.nil?
       uri = URI.parse(mongo_url)
       conn = Mongo::Connection.from_uri(mongo_url)
       db = conn.db(uri.path.gsub(/^\//, ''))
@@ -46,7 +46,7 @@ class LandingPad < Sinatra::Base
   end
 
   helpers do
-    include Rack::Utils  
+    include Rack::Utils
 
     def u text
       escape text
@@ -67,6 +67,11 @@ class LandingPad < Sinatra::Base
 
   get '/' do
     erb :index
+  end
+
+  get '/config' do
+    protected!
+    erb :config
   end
 
   get '/contacts' do
