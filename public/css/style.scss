@@ -13,10 +13,9 @@ body {
 
 #container {
   margin: 100px auto 0 auto;
-}
-
-#container p {
-  margin: 10px 0 0 0;
+  p {
+   margin: 10px 0 0 0;
+  }
 }
 
 [class*="span"] {
@@ -75,9 +74,9 @@ small {
 .help {
   color: #999;
   font-style: italic;
-}
-.help.error {
-  color: #B94A48;
+  &.error {
+    color: #B94A48;
+  }
 }
 
 .alert {

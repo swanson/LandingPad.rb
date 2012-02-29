@@ -4,7 +4,7 @@ require 'uri'
 require 'mongo'
 require 'json'
 require 'haml'
-
+require 'sass'
 
 class LandingPad < Sinatra::Base
   set :static, true
@@ -63,6 +63,14 @@ class LandingPad < Sinatra::Base
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
       @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [$admin_acct_name, $admin_acct_passwd]
     end
+  end
+
+  get '/style.css' do
+    scss :style, views: './public/css/'
+  end
+
+  get '/landingpad.js' do
+    coffee :landingpad, views: './public/js/'
   end
 
   get '/' do

@@ -5,13 +5,14 @@
     %script{ src: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", type: "text/javascript" }
     %script{ src: "bootstrap/js/bootstrap.min.js", type: "text/javascript" }
     %script{ src: "bootstrap/js/bootstrap-modal.min.js", type: "text/javascript" }
+    %script{ src: "landingpad.js", type: "text/javascript" }
     %link{ href: "http://fonts.googleapis.com/css?family=#{$app_title_font}", rel: "stylesheet", type: "text/css" }
     %link{ href: "bootstrap/css/bootstrap.min.css", media: "screen", rel: "stylesheet", type: "text/css" }
     %link{ href: "bootstrap/css/bootstrap-responsive.min.css", media: "screen", rel: "stylesheet", type: "text/css" }
-    %link{ href: "css/style.css", media: "screen", rel: "stylesheet", type: "text/css" }
+    %link{ href: "style.css", media: "screen", rel: "stylesheet", type: "text/css" }
   %body{ style: "background-color:#{$bg_color};" }
     #container.container
-      .row-fuild
+      .row
         #info.span12
           .bloc
             %h1= $app_title
@@ -45,41 +46,3 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-    $("#info .btn-info").click(function(){
-      $("#signup").fadeIn();
-    });
-    $("#signup button").click(function(e){
-      var that = $(this);
-      e.preventDefault();
-
-      if ( $('#inputIcon').val().length < 1 ){
-        $('#signup .control-group').addClass('error');
-        $('#signup .help').addClass('error');
-        return;
-      }
-
-      $.ajax({
-        type: 'post',
-        url: '/subscribe',
-        data: $('#subscribe').serialize(),
-        datatype: 'json',
-        success: function(data){
-          if ($('#signup .alert-success').length == 0) {
-            $('#signup').prepend("<div class='alert alert-success'><a class='close' data-dismiss='alert'>×</a>Thank you! We'll keep you posted.</div>");
-          }
-          $('#signup input, #signup button').attr('disabled', true);
-          options = {
-            show: true,
-            keyboard: true
-          }
-          setTimeout(function(){
-            $('#social').modal(options)
-          }, 2000);
-        },
-        error: function(data){
-          if ($('#signup .alert-error').length == 0) {
-            $('#signup').prepend("<div class='alert alert-error'><a class='close' data-dismiss='alert'>×</a>Ooops! Something messed up, try again.</div>");
-          }
-        },
-      });
-    });
