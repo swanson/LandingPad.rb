@@ -5,6 +5,7 @@ require 'mongo'
 require 'json'
 require 'haml'
 require 'sass'
+require 'v8'
 
 class LandingPad < Sinatra::Base
   set :static, true
