@@ -57,43 +57,50 @@ $ ->
     $(this).find('i').removeClass('icon-edit')
 
   $('.editable').on 'click', ->
-    editable $(this)
+    new Edit($(this)).editable()
 
-  editable = (el) ->
-    if !el.data('edit')
-      oldValue = el.find('.editZone').html()#.replace /"/g, """
-      newValue = "<form class='form-inline'>"
-      newValue += "<input type='hidden' class='oldValue' value='#{oldValue}' />"
-      newValue += "<input type='text' class='span7 newValue' name='#{el.data('name')}' value='#{oldValue}' />"
-      newValue += "<input class='btn btn-primary save' type='button' value='Save' /><input class='btn discard' type='button' value='Discard' />"
-      newValue += "</form>"
-      el.html('').html newValue
-      el.data('edit', true)
+  ##
+  ## Edit Class
+  class Edit
+    constructor: (el) ->
+      @that = el
 
-      $('.btn.save').on 'click', ->
-        saveEdit $(this).closest('td')
+    editable: =>
+      if @that.data('editing') != true
+        oldValue = @that.find('.editZone').html()
+        newValue = "<form class='form-inline'>"
+        newValue += "<input type='hidden' class='oldValue' value='#{oldValue}' />"
+        newValue += "<input type='text' class='span7 newValue' name='#{@that.data('name')}' value='#{oldValue}' />"
+        newValue += "<input class='btn btn-primary save' type='button' value='Save' /><input class='btn discard' type='button' value='Discard' />"
+        newValue += "</form>"
+        @that.html('').html newValue
+        @that.data('editing', true)
+        @that.removeClass('editable')
+        $('.btn.save').on 'click', ->
+          new Edit($(this).closest('td')).saveEdit()
+        $('.btn.discard').on 'click', ->
+          new Edit($(this).closest('td')).discardEdit()
+      else
+        @that.removeData('editing')
 
-      $('.btn.discard').on 'click', ->
-        discardEdit $(this).closest('td')
+    discardEdit: =>
+      oldValue = @that.find('.oldValue').val()
+      newValue = "<i></i>"
+      newValue += "<div class='editZone'>#{oldValue}</div>"
+      @that.html('').html newValue
+      @that.addClass 'editable'
 
-  discardEdit = (el) ->
-    oldValue = el.find('.oldValue').val()
-    newValue = "<i></i>"
-    newValue += "<div class='editZone'>#{oldValue}</div>"
-    el.html('').html newValue
-    #el.closest('td').removeData('edit')
-
-  saveEdit = (el) ->
-    # $.ajax
-    #   #accepts: "application/json"
-    #   username: $('body').data('hk_api_key')
-    #   type: 'PUT'
-    #   #contentType: 'text/json'
-    #   data: "#{el.data('name')}=#{el.find('.newValue').val()}"
-    #   url: "https://api.heroku.com/apps/#{$('body').data('hk_app_name')}/config_vars"
-    #   success: ->
-    #     console.log 'SUCCESS'
-    #   error: (xhr, text, e) ->
-    #     console.log xhr
-    #     console.log text
-    #     console.log e
+    saveEdit: =>
+      # $.ajax
+      #   #accepts: "application/json"
+      #   username: $('body').data('hk_api_key')
+      #   type: 'PUT'
+      #   #contentType: 'text/json'
+      #   data: "#{el.data('name')}=#{el.find('.newValue').val()}"
+      #   url: "https://api.heroku.com/apps/#{$('body').data('hk_app_name')}/config_vars"
+      #   success: ->
+      #     console.log 'SUCCESS'
+      #   error: (xhr, text, e) ->
+      #     console.log xhr
+      #     console.log text
+      #     console.log e
