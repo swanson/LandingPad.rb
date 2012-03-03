@@ -1,0 +1,40 @@
+%html
+  %head
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0"}
+    %title= $page_title
+    %script{ src: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", type: "text/javascript" }
+    %script{ src: "bootstrap/js/bootstrap.min.js", type: "text/javascript" }
+    %script{ src: "bootstrap/js/bootstrap-modal.min.js", type: "text/javascript" }
+    %script{ src: "bootstrap/js/bootstrap-tooltip.min.js", type: "text/javascript" }
+    %script{ src: "landingpad.js", type: "text/javascript" }
+    %link{ href: "http://fonts.googleapis.com/css?family=#{$app_title_font}", rel: "stylesheet", type: "text/css" }
+    %link{ href: "bootstrap/css/bootstrap.min.css", media: "screen", rel: "stylesheet", type: "text/css" }
+    %link{ href: "bootstrap/css/bootstrap-responsive.min.css", media: "screen", rel: "stylesheet", type: "text/css" }
+    %link{ href: "style.css", media: "screen", rel: "stylesheet", type: "text/css" }
+  %body{ style: "background-color:#{$bg_color};", data: { hk_app_name: "#{$hk_app_name}", hk_api_key: "#{$hk_api_key}" } }
+    .navbar
+      .navbar-inner
+        .container
+          %a.brand{ href: "/" }= $app_title
+          .nav-collapse
+            %ul.nav
+              %li{ class: "#{request.path == '/contacts' ? 'active' : '' }" }
+                %a{ href: '/contacts' }
+                  %i.icon-user.icon-white
+                  Contacts
+              %li{ class: "#{request.path == '/config' ? 'active' : '' }" }
+                %a{ href: '/config' }
+                  %i.icon-cog.icon-white
+                  Config
+    #container.container.admin
+      = yield
+  :javascript
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', ' $google_analytics_key ']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();

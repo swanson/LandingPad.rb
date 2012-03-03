@@ -6,6 +6,7 @@ require 'json'
 require 'haml'
 require 'sass'
 require 'v8'
+require 'hominid'
 
 class LandingPad < Sinatra::Base
   set :static, true
@@ -14,6 +15,8 @@ class LandingPad < Sinatra::Base
 
   configure do
     $app_url = ENV['APP_URL'] || "http://localhost:3456/"
+    $hk_api_key = ENV['HK_API_KEY']
+    $hk_app_name = ENV['HK_APP_NAME']
 
     # Admin settings - used to access contacts
     $admin_acct_name = ENV['ADMIN_ACCT_NAME'] || 'admin'
@@ -34,11 +37,19 @@ class LandingPad < Sinatra::Base
     #social network settings, for sharing the page post signup
     $social_twitter = ENV['SOCIAL_TWITTER']
 
+    #MailChimp api key to export contacts
+    $mailchimp_api_key = ENV['mailchimp_api_key']
+    $mailchimp_list = ENV['mailchimp_list']
+    $mailchimp_username = ENV['mailchimp_username']
+    $mailchimp_password = ENV['mailchimp_password']
+
     # Database settings - do NOT change these
     mongo_url = ENV['MONGOHQ_URL']
 
     # only hook up mongo if we have a url, this means subscribing and contacts won't work locally
     unless mongo_url.nil?
+      match = mongo_url.match(/(.*):\/\/(.*):(.*)@(.*)/)
+      $mongo_url = "#{match[1]}://username:password@#{match[4]}"
       uri = URI.parse(mongo_url)
       conn = Mongo::Connection.from_uri(mongo_url)
       db = conn.db(uri.path.gsub(/^\//, ''))
@@ -58,6 +69,11 @@ class LandingPad < Sinatra::Base
         response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
         throw(:halt, [401, "Not authorized\n"])
       end
+    end
+
+    def mailchimp_valid?
+      return true if $mailchimp_api_key && $mailchimp_username && $mailchimp_password && $mailchimp_list
+      false
     end
 
     def authorized?
@@ -80,20 +96,42 @@ class LandingPad < Sinatra::Base
 
   get '/config' do
     protected!
-    haml :config
+    haml :config, layout: :admin
   end
 
   get '/contacts' do
     protected!
     @contacts = $collection.find()
-    haml :contacts
+    haml :contacts, layout: :admin
+  end
+
+  get '/contacts/export/mailchimp' do
+    protected!
+    @contacts = $collection.find({type: 'Email'})
+    if $mailchimp_api_key && $mailchimp_username && $mailchimp_password && $mailchimp_list
+      hominid = Hominid::API.new $mailchimp_api_key, { username: $mailchimp_username, password: $mailchimp_password, secure: true }
+      @contacts.each do |c|
+        hominid.list_subscribe($mailchimp_list, c['name'], {}, 'html', false, true, false, false)
+      end
+    end
+    redirect '/contacts'
+  end
+
+  get '/contacts/export/csv' do
+    protected!
+    @contacts = $collection.find()
+    headers "Content-Disposition" => "attachment;filename=contacts.csv", "Content-Type" => "application/octet-stream"
+    resutls = "Contact,Type,referer\n"
+    @contacts.each do |c|
+      resutls << "#{c['name']},#{c['type']},#{c['referer']}\n"
+    end
+    resutls
   end
 
   post '/subscribe' do
     content_type :json
     contact = params[:contact]
-    contact_type = contact.start_with?("@") ||
-                  !contact.include?("@") ? "Twitter" : "Email"
+    contact_type = if contact.start_with?("@") then "Twitter" elsif  contact.include?("@") then "Email" else 'Other' end
 
     doc = {
       "name"    => contact,

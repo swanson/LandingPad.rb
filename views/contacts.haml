@@ -1,0 +1,15 @@
+%section#actions
+  %a#mailchimp-export.btn.btn-info{ href: '/contacts/export/mailchimp', class: "#{mailchimp_valid? ? '' : 'disabled'}", rel: "#{mailchimp_valid? ? '' : 'tooltip'}", title: "#{mailchimp_valid? ? '' : 'Please set a the API KEY, list ID, username and password to export to MailChimp'}"} Export to MailChimp
+  %a.btn.btn-success{ href: '/contacts/export/csv' } Export to CSV
+%table.table.table-striped.table-bordered
+  %thead
+    %th Contact
+    %th Type
+    %th Referer URL
+  %tbody
+    - @contacts.each do |c|
+      %tr
+        %td= c['name']
+        %td= c['type']
+        %td= c['referer']
+

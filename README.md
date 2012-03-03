@@ -1,4 +1,4 @@
-![](http://i.imgur.com/w3hXT.png)
+![](http://i.imgur.com/eeolN.png)
 
 What is LandingPad.rb
 ----
@@ -10,9 +10,9 @@ Google Analytics are supported so you can track views and conversion rates for s
 
 How to use LandingPad.rb
 ----
-1. Setup an account on [Heroku](heroku.com) (you can use the free account)  
-Instructions: [http://devcenter.heroku.com/articles/quickstart]()  
-Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstart#prerequisites]()  
+1. Setup an account on [Heroku](heroku.com) (you can use the free account)
+Instructions: [http://devcenter.heroku.com/articles/quickstart]()
+Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstart#prerequisites]()
 
 1. Extract **LandingPad.rb** into a folder
 
@@ -39,9 +39,9 @@ Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstar
          heroku create
          heroku addons:add mongohq:free
 
-1. Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.  
+1. Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.
 
-	You should see a landing page and be able to enter in an email address or Twitter account name.  To view the contact information stored in your app, navigate to **http://your-heroku-machine-name.heroku.com/contacts**.  You will need to enter the username and password that you setup in Step 4.  
+	You should see a landing page and be able to enter in an email address or Twitter account name.  To view the contact information stored in your app, navigate to **http://your-heroku-machine-name.heroku.com/contacts**.  You will need to enter the username and password that you setup in Step 4.
 
 	You should see a table listing the name, type and referal URL for anyone that has signed up for your app.
 
@@ -49,7 +49,7 @@ Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstar
 
 Uhh...something broke
 ----
-You can try to debug your page on your local machine by installing the correct gems with Bundler and running the app using `rackup config.ru -p 3456`.  You can get to it by opening a browser and going to `localhost:3456`.  
+You can try to debug your page on your local machine by installing the correct gems with Bundler and running the app using `rackup config.ru -p 3456`.  You can get to it by opening a browser and going to `localhost:3456`.
 
 Make sure you have all of your settings correct in `landingpad.rb`.
 
@@ -58,6 +58,6 @@ If you make any changes to the code, make sure to do a `git add/git commit` and 
 It looks good, but I want it to be blue
 ---
 You can modify any of the code, html, css and javascript to customize your page.  Just remember to push any changes to Heroku so your live page will be updated.
-         
+
 
 

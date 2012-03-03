@@ -1,0 +1,48 @@
+%table.table.table-striped.table-bordered
+  %thead
+    %th Key
+    %th Value
+  %tbody
+    %tr
+      %td Appliction Url
+      %td= $app_url
+    %tr
+      %td Admin Account Name
+      %td= $admin_acct_name
+    %tr
+      %td Admin Account Password
+      %td
+        .pwd{ style: 'float:left;', data: { pwd: "#{$admin_acct_passwd}"} } *******
+        .btn.btn-mini{ id: 'show-pwd', style: 'float:right;' } Show
+    %tr
+      %td Page Title
+      %td.editable{ data: {name: 'PAGE_TITLE'} }
+        .editZone= $page_title
+    %tr
+      %td Application Title
+      %td.editable{ data: {name: 'APP_TITLE'} }
+        .editZone= $app_title
+    %tr
+      %td Application Summary
+      %td.editable{ data: {name: 'APP_SUMMARY'} }
+        .editZone= $app_summary
+    %tr
+      %td Google Analytics Key
+      %td.editable{ data: {name: 'GOOGLE_ANALYTICS_KEY'} }
+        .editZone= $google_analytics_key
+    %tr
+      %td Background Color
+      %td.editable{ data: {name: 'BG_COLOR'} }
+        .editZone= $bg_color
+    %tr
+      %td Appliction Title Color
+      %td.editable{ data: {name: 'APP_TITLE_COLOR'} }
+        .editZone= $app_title_color
+    %tr
+      %td Appliction Title Font
+      %td.editable{ data: {name: 'APP_TITLE_FONT'} }
+        .editZone= $app_title_font
+    %tr
+      %td Mongo Url
+      %td.editable{ data: {name: 'MONGO_URL'} }
+        .editZone= $mongo_url

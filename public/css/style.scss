@@ -13,6 +13,7 @@ body {
 
 #container {
   margin: 100px auto 0 auto;
+  &.admin { margin: 40px auto 0 auto; }
   p {
    margin: 10px 0 0 0;
   }
@@ -86,4 +87,22 @@ small {
 
 .alert .close {
   top: 3px;
+}
+
+.navbar-inner { border-radius: 0; }
+
+#actions {
+  margin: 0 0 20px 0;
+  text-align: right;
+}
+
+td.editable:hover {
+  background-color: #E8F3FF !important;
+  i {
+    float: right;
+  }
+}
+
+td.editable {
+  input[type=button] { margin: 0 0 0 6px; }
 }
