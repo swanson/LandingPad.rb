@@ -81,13 +81,14 @@ $ ->
     newValue = "<i></i>"
     newValue += "<div class='editZone'>#{oldValue}</div>"
     el.html('').html newValue
+    el.closest('td').removeData('edit')
 
   saveEdit = (el) ->
     $.ajax
-      accepts: "application/json"
+      #accepts: "application/json"
       username: $('body').data('hk_api_key')
       type: 'PUT'
-      contentType: 'text/json'
+      #contentType: 'text/json'
       data: "#{el.data('name')}=#{el.find('.newValue').val()}"
       url: "https://api.heroku.com/apps/#{$('body').data('hk_app_name')}/config_vars"
       success: ->
