@@ -85,11 +85,10 @@ $ ->
   saveEdit = (el) ->
     $.ajax
       accepts: "application/json"
-      username: "#{$('body').data('hk_api_key')}"
+      username: $('body').data('hk_api_key')
       type: 'PUT'
       contentType: 'text/json'
-      data: "{\"#{el.data('name')}\":\"#{el.find('.newValue').val()}\"}"
-      dataType: 'json'
+      data: "#{el.data('name')}=#{el.find('.newValue').val()}"
       url: "https://api.heroku.com/apps/#{$('body').data('hk_app_name')}/config_vars"
       success: ->
         console.log 'SUCCESS'
