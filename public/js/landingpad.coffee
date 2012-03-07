@@ -32,9 +32,7 @@ $ ->
           show: true
           keyboard: true
 
-        setTimeout (->
-          $("#social").modal options
-        ), 2000
+        $("#social").modal options
 
       error: (data) ->
         $("#signup").prepend "<div class='alert alert-error'><a class='close' data-dismiss='alert'>×</a>Ooops! Something messed up, try again.</div>"  if $("#signup .alert-error").length is 0
@@ -91,16 +89,38 @@ $ ->
       @that.addClass 'editable'
 
     saveEdit: =>
+      $.ajax
+        url: "https://api.heroku.com/apps/landingpadrb/config_vars"
+        type: "PUT"
+        data: "working=yes"
+        password: "0d12fa51371432c129b640122ed5585877ee801f"
+        headers:
+          Accept: "application/json"
+
+        success: (data, textStatus, response) ->
+          console.log "Success"
+          console.log data
+          console.log textStatus
+          console.log response
+
+        error: (data, textStatus, response) ->
+          console.log "Error"
+          console.log data
+          console.log textStatus
+          console.log response
       # $.ajax
-      #   #accepts: "application/json"
-      #   username: $('body').data('hk_api_key')
       #   type: 'PUT'
-      #   #contentType: 'text/json'
-      #   data: "#{el.data('name')}=#{el.find('.newValue').val()}"
-      #   url: "https://api.heroku.com/apps/#{$('body').data('hk_app_name')}/config_vars"
+      #   url: '/config/update'
+      #   # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
+      #   data: "working=yes"
+      #   headers:
+      #       "Accept": "application/json"
+      #   # beforeSend: (xhr) ->
+      #   #   xhr.setRequestHeader("Accept", "application/json")
       #   success: ->
       #     console.log 'SUCCESS'
-      #   error: (xhr, text, e) ->
-      #     console.log xhr
-      #     console.log text
-      #     console.log e
+      #   error: ->
+      #     console.log 'ERROR'
+      @that.addClass 'editable'
+
+

@@ -7,6 +7,7 @@ require 'haml'
 require 'sass'
 require 'v8'
 require 'hominid'
+require 'net/http'
 
 class LandingPad < Sinatra::Base
   set :static, true
@@ -97,6 +98,19 @@ class LandingPad < Sinatra::Base
   get '/config' do
     protected!
     haml :config, layout: :admin
+  end
+
+  post '/config/update' do
+    protected!
+    http = Net::HTTP.start('https://api.heroku.com')
+    #req = Net::HTTP::Put.new("/apps/#{$hk_app_name}/config_vars")
+    req = Net::HTTP::Put.new("/apps/landingpadrb/config_vars")
+    req.add_field("Accept", "application/json")
+    req.basic_auth '', '0d12fa51371432c129b640122ed5585877ee801f'#$hk_api_key
+    req.set_form_data({"params" => {"KEY1" => "prout"}})
+    #req.set_form_data("body=%7B%22KEY1%22%3A%20%22value1%22%7D")
+    response = http.request(req)
+    print response.body
   end
 
   get '/contacts' do
