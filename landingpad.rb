@@ -28,8 +28,8 @@ class LandingPad < Sinatra::Base
     $app_title_font = 'Philosopher'
 
     # Database settings - do NOT change these
-    uri = URI.parse(ENV['MONGOHQ_URL'])
-    conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+    uri = URI.parse(ENV['MONGOLAB_URI'])
+    conn = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
     db = conn.db(uri.path.gsub(/^\//, ''))
     $collection = db.collection("contacts")
   end
