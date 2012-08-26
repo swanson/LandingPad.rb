@@ -104,10 +104,10 @@ class LandingPad < Sinatra::Base
   post '/config/update' do
     protected!
     http = Net::HTTP.start('https://api.heroku.com')
-    req = Net::HTTP::Put.new("/apps/#{$hk_app_name}/config_vars")
+    req = Net::HTTP::Get.new("/apps/#{$hk_app_name}/config_vars")
     req.add_field("Accept", "application/json")
     req.basic_auth '', $hk_api_key
-    req.set_form_data("body=%7B%22test%22%3A%22new%20test%22%7D")
+    # req.set_form_data("body=%7B%22test%22%3A%22new%20test%22%7D")
     response = http.request(req)
     print response.body
   end
