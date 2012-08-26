@@ -8,6 +8,7 @@ require 'sass'
 require 'v8'
 require 'hominid'
 require 'net/http'
+require 'net/https'
 
 class LandingPad < Sinatra::Base
   set :static, true
@@ -17,8 +18,8 @@ class LandingPad < Sinatra::Base
   configure do
     ######################################
     ##########  NEED TO BE SET  ##########
-    $hk_api_key = ENV['HK_API_KEY']
-    $hk_app_name = ENV['HK_APP_NAME']
+    $hk_api_key = ENV['HK_API_KEY'] || '0d12fa51371432c129b640122ed5585877ee801f'
+    $hk_app_name = ENV['HK_APP_NAME'] || 'landingpadrb'
     # Admin settings - used to access contacts
     $admin_acct_name = ENV['ADMIN_ACCT_NAME'] || 'admin'
     $admin_acct_passwd = ENV['ADMIN_ACCT_PASSWD'] || 'admin'
@@ -101,44 +102,15 @@ class LandingPad < Sinatra::Base
     haml :config, layout: :admin
   end
 
-  get '/config/update' do
+  post '/config/update' do
     protected!
-    raise "https://api.heroku.com/apps/#{$hk_app_name}/config_vars".inspect
     uri = URI("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    req = Net::HTTP::Get.new(uri.request_uri)
+    http = Net::HTTP.new(uri.host,uri.port)
+    req = Net::HTTP::Put.new(uri.path)
+    http.use_ssl = true
     req.basic_auth '', $hk_api_key
-
-    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
-      http.request(req)
-    }
-    puts res.body
-
-    # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    # http = Net::HTTP.new(url.host, url.port)
-    # http.use_ssl = true
-    # # req.basic_auth '', $hk_api_key
-    # res = http.start(url.host, url.port) {|h|
-    #   h.request Net::HTTP::Get.new(url.path)
-    #   h.request.basic_auth '', $hk_api_key
-    # }
-    # puts res.inspect
-    # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    # req = Net::HTTP::Get.new(url.path)
-    # req.basic_auth '', $hk_api_key
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.use_ssl = true
-    #   http.request(req)
-    # }
-    # puts res.inspect
-
-    # req.set_form_data("body=%7B%22test%22%3A%22new%20test%22%7D")
-    # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    # req = Net::HTTP::Get.new(url.path)
-    # req.add_field("Accept", "application/json")
-    # 
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
+    req.body = JSON.generate(params)
+    response = http.request(req)
   end
 
   get '/contacts' do

@@ -92,16 +92,11 @@ $ ->
       $.ajax
         type: 'POST'
         url: '/config/update'
-        # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
-        # data: "working=yes"
-        # headers:
-        #    "Accept": "application/json"
-        # beforeSend: (xhr) ->
-        #   xhr.setRequestHeader("Accept", "application/json")
-        success: ->
-          console.log 'SUCCESS'
-        error: ->
-          console.log 'ERROR'
+        data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
+      nValue = @that.find('.newValue').val()
+      newValue = "<i></i>"
+      newValue += "<div class='editZone'>#{nValue}</div>"
+      @that.html('').html newValue
       @that.addClass 'editable'
 
 
