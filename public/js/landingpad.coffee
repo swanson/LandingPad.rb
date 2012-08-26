@@ -90,37 +90,18 @@ $ ->
 
     saveEdit: =>
       $.ajax
-        url: "https://api.heroku.com/apps/landingpadrb/config_vars"
-        type: "PUT"
+        type: 'PUT'
+        url: '/config/update'
+        # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
         data: "working=yes"
-        password: "0d12fa51371432c129b640122ed5585877ee801f"
         headers:
-          Accept: "application/json"
-
-        success: (data, textStatus, response) ->
-          console.log "Success"
-          console.log data
-          console.log textStatus
-          console.log response
-
-        error: (data, textStatus, response) ->
-          console.log "Error"
-          console.log data
-          console.log textStatus
-          console.log response
-      # $.ajax
-      #   type: 'PUT'
-      #   url: '/config/update'
-      #   # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
-      #   data: "working=yes"
-      #   headers:
-      #       "Accept": "application/json"
-      #   # beforeSend: (xhr) ->
-      #   #   xhr.setRequestHeader("Accept", "application/json")
-      #   success: ->
-      #     console.log 'SUCCESS'
-      #   error: ->
-      #     console.log 'ERROR'
+            "Accept": "application/json"
+        # beforeSend: (xhr) ->
+        #   xhr.setRequestHeader("Accept", "application/json")
+        success: ->
+          console.log 'SUCCESS'
+        error: ->
+          console.log 'ERROR'
       @that.addClass 'editable'
 
 
