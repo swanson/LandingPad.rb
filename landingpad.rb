@@ -106,7 +106,6 @@ class LandingPad < Sinatra::Base
     url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    http.request(req)
     # req.basic_auth '', $hk_api_key
     res = http.start(url.host, url.port) {|h|
       h.request Net::HTTP::Get.new(url.path)
