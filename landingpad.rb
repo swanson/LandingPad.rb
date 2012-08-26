@@ -107,6 +107,7 @@ class LandingPad < Sinatra::Base
     req = Net::HTTP::Get.new(url.path)
     req.basic_auth '', $hk_api_key
     res = Net::HTTP.start(url.host, url.port) {|http|
+      http.use_ssl = true
       http.request(req)
     }
     puts res.inspect
