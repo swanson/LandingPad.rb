@@ -4,7 +4,7 @@ What is LandingPad.rb
 ----
 **LandingPad.rb** is a simple "landing page" application that takes just a few minutes to setup. It lets you quickly put up a page to collect email addresses or Twitter users for when you are ready to launch your app/product/whatever.
 
-LandingPad.rb can be hosted on Heroku and use MongoHQ to store the contacts -- both of which have free plans that will work fine. Buy a domain and point it to your LandingPad.rb app and you are good to go!
+LandingPad.rb can be hosted on Heroku and use MongoLAB or MongoHQ to store the contacts -- both of which have free plans that will work fine. Buy a domain and point it to your LandingPad.rb app and you are good to go!
 
 Google Analytics are supported so you can track views and conversion rates for signing up.
 
@@ -37,7 +37,8 @@ Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstar
 1. Now create your Heroku app by running from your project folder:
 
          heroku create
-         heroku addons:add mongohq:free
+
+         heroku addons:add mongohq:free or heroku addons:add mongolab:starter
 
 1. Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.
 
