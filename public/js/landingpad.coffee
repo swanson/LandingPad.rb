@@ -90,7 +90,7 @@ $ ->
 
     saveEdit: =>
       $.ajax
-        type: 'POST'
+        type: 'GET'
         url: '/config/update'
         # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
         # data: "working=yes"
