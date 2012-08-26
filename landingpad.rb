@@ -104,13 +104,23 @@ class LandingPad < Sinatra::Base
   post '/config/update' do
     protected!
     url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    req = Net::HTTP::Get.new(url.path)
-    req.basic_auth '', $hk_api_key
-    res = Net::HTTP.start(url.host, url.port) {|http|
-      http.use_ssl = true
-      http.request(req)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.request(req)
+    # req.basic_auth '', $hk_api_key
+    res = http.start(url.host, url.port) {|h|
+      h.request Net::HTTP::Get.new(url.path)
+      h.request.basic_auth '', $hk_api_key
     }
     puts res.inspect
+    # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
+    # req = Net::HTTP::Get.new(url.path)
+    # req.basic_auth '', $hk_api_key
+    # res = Net::HTTP.start(url.host, url.port) {|http|
+    #   http.use_ssl = true
+    #   http.request(req)
+    # }
+    # puts res.inspect
 
     # req.set_form_data("body=%7B%22test%22%3A%22new%20test%22%7D")
     # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
