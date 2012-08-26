@@ -109,7 +109,7 @@ class LandingPad < Sinatra::Base
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
     }
-    puts res.body
+    puts res.inspect
 
     # req.set_form_data("body=%7B%22test%22%3A%22new%20test%22%7D")
     # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
