@@ -101,17 +101,26 @@ class LandingPad < Sinatra::Base
     haml :config, layout: :admin
   end
 
-  post '/config/update' do
+  get '/config/update' do
     protected!
-    url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    # req.basic_auth '', $hk_api_key
-    res = http.start(url.host, url.port) {|h|
-      h.request Net::HTTP::Get.new(url.path)
-      h.request.basic_auth '', $hk_api_key
+    uri = URI("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
+    req = Net::HTTP::Get.new(uri.request_uri)
+    req.basic_auth '', $hk_api_key
+
+    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+      http.request(req)
     }
-    puts res.inspect
+    puts res.body
+
+    # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
+    # http = Net::HTTP.new(url.host, url.port)
+    # http.use_ssl = true
+    # # req.basic_auth '', $hk_api_key
+    # res = http.start(url.host, url.port) {|h|
+    #   h.request Net::HTTP::Get.new(url.path)
+    #   h.request.basic_auth '', $hk_api_key
+    # }
+    # puts res.inspect
     # url = URI.parse("https://api.heroku.com/apps/#{$hk_app_name}/config_vars")
     # req = Net::HTTP::Get.new(url.path)
     # req.basic_auth '', $hk_api_key
