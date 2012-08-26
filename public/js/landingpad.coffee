@@ -90,12 +90,12 @@ $ ->
 
     saveEdit: =>
       $.ajax
-        type: 'PUT'
+        type: 'POST'
         url: '/config/update'
         # data: "#{@that.data('name')}=#{@that.find('.newValue').val()}"
-        data: "working=yes"
-        headers:
-            "Accept": "application/json"
+        # data: "working=yes"
+        # headers:
+        #    "Accept": "application/json"
         # beforeSend: (xhr) ->
         #   xhr.setRequestHeader("Accept", "application/json")
         success: ->
