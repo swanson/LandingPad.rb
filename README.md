@@ -39,7 +39,7 @@ Make sure you have the pre-reqs: [http://devcenter.heroku.com/articles/quickstar
 1. Now create your Heroku app by running from your project folder:
 
          heroku create
-         heroku addons:add mongohq:free
+         heroku addons:add mongohq:sandbox
 
 1. Now run `git push heroku master` to push the code to your Heroku app.  Once it's finished, run `heroku open` to launch a browser and go to your app.  
 

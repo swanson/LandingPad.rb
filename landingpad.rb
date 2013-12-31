@@ -17,7 +17,7 @@ class LandingPad < Sinatra::Base
     # Page settings - used to configure your landing page
     $page_title = 'LandingPad.rb | Just add water landing pages'
     $app_title = 'LandingPad.rb'
-    $app_summary = 'Get a page up and running in minutes and 
+    $app_summary = 'Get a page up and running in minutes and
                     start collecting contacts immediately!'
     #your google analyics tracking key, if applicable
     $google_analytics_key = 'UA-XXXXXX-X'
@@ -56,6 +56,14 @@ class LandingPad < Sinatra::Base
     protected!
     @contacts = $collection.find()
     erb :contacts
+  end
+
+  get '/contacts.json' do
+    protected!
+    content_type :json
+    @contacts = $collection.find()
+    @results = @contacts.to_a();
+    JSON.dump(@results)
   end
 
   post '/subscribe' do
